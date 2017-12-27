@@ -3,7 +3,7 @@ Description=nyancat
 Documentation=man:nyancat(1)
 
 [Service]
-User=nobody
+User=root
 ExecStart=-/usr/bin/nyancat -t
 StandardInput=socket
 StandardOutput=socket

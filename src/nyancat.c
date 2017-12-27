@@ -110,7 +110,7 @@ int telnet = 0;
 /*
  * Whether or not to show the counter
  */
-int show_counter = 1;
+int show_counter = 0;
 
 /*
  * Number of frames to show before quitting
@@ -581,31 +581,32 @@ int main(int argc, char ** argv) {
 	}
 
 	/* Do our terminal detection */
-	if (strstr(term, "xterm")) {
-		ttype = 1; /* 256-color, spaces */
-	} else if (strstr(term, "toaru")) {
-		ttype = 1; /* emulates xterm */
-	} else if (strstr(term, "linux")) {
-		ttype = 3; /* Spaces and blink attribute */
-	} else if (strstr(term, "vtnt")) {
-		ttype = 5; /* Extended ASCII fallback == Windows */
-	} else if (strstr(term, "cygwin")) {
-		ttype = 5; /* Extended ASCII fallback == Windows */
-	} else if (strstr(term, "vt220")) {
-		ttype = 6; /* No color support */
-	} else if (strstr(term, "fallback")) {
-		ttype = 4; /* Unicode fallback */
-	} else if (strstr(term, "rxvt-256color")) {
-		ttype = 1; /* xterm 256-color compatible */
-	} else if (strstr(term, "rxvt")) {
-		ttype = 3; /* Accepts LINUX mode */
-	} else if (strstr(term, "vt100") && terminal_width == 40) {
-		ttype = 7; /* No color support, only 40 columns */
-	} else if (!strncmp(term, "st", 2)) {
-		ttype = 1; /* suckless simple terminal is xterm-256color-compatible */
-	} else {
-		ttype = 2; /* Everything else */
-	}
+//	if (strstr(term, "xterm")) {
+//		ttype = 1; /* 256-color, spaces */
+//	} else if (strstr(term, "toaru")) {
+//		ttype = 1; /* emulates xterm */
+//	} else if (strstr(term, "linux")) {
+//		ttype = 3; /* Spaces and blink attribute */
+//	} else if (strstr(term, "vtnt")) {
+//		ttype = 5; /* Extended ASCII fallback == Windows */
+//	} else if (strstr(term, "cygwin")) {
+//		ttype = 5; /* Extended ASCII fallback == Windows */
+//	} else if (strstr(term, "vt220")) {
+//		ttype = 6; /* No color support */
+//	} else if (strstr(term, "fallback")) {
+//		ttype = 4; /* Unicode fallback */
+//	} else if (strstr(term, "rxvt-256color")) {
+//		ttype = 1; /* xterm 256-color compatible */
+//	} else if (strstr(term, "rxvt")) {
+//		ttype = 3; /* Accepts LINUX mode */
+//	} else if (strstr(term, "vt100") && terminal_width == 40) {
+//		ttype = 7; /* No color support, only 40 columns */
+//	} else if (!strncmp(term, "st", 2)) {
+//		ttype = 1; /* suckless simple terminal is xterm-256color-compatible */
+//	} else {
+//		ttype = 2; /* Everything else */
+//	}
+	ttype = 1;
 
 	int always_escape = 0; /* Used for text mode */
 
@@ -844,11 +845,12 @@ int main(int argc, char ** argv) {
 					 * Our rainbow, with some padding.
 					 */
 					const char *rainbow = ",,>>&&&+++###==;;;,,";
-					color = rainbow[mod_x + y-23];
-					if (color == 0) color = ',';
+					//color = rainbow[mod_x + y-23];
+					//if (color == 0) color = ',';
+                    color = ' ';
 				} else if (x < 0 || y < 0 || y >= FRAME_HEIGHT || x >= FRAME_WIDTH) {
 					/* Fill all other areas with background */
-					color = ',';
+					color = ' ';
 				} else {
 					/* Otherwise, get the color from the animation frame. */
 					color = frames[i][y][x];
@@ -905,7 +907,9 @@ int main(int argc, char ** argv) {
 		++i;
 		if (!frames[i]) {
 			/* Loop animation */
-			i = 0;
+			//i = 0;
+            playing = 0;
+
 		}
 		/* Wait */
 		usleep(90000);

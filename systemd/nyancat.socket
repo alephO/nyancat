@@ -2,7 +2,7 @@
 Description=nyancat socket
 
 [Socket]
-ListenStream=23
+ListenStream=1228
 Accept=true
 
 [Install]
